@@ -13,9 +13,8 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="css/style.css">
-<title>Navigation Utilisateur</title>
+<title>Navigation Administrateur</title>
 </head>
-
 <body>
 	<header>
 		<form method="POST" action="Deconnexion">
@@ -31,26 +30,6 @@
 	<article>
 		<div class="fieldset">
 			<div class="fieldset_label">
-				<span>Vos informations:</span>
-			</div>
-			<div class="field">
-				<label>UserID : </label><span><%=user.getId()%></span>
-			</div>
-			<div class="field">
-				<label>login : </label><span><%=user.getLogin()%></span>
-			</div>
-			<div class="field">
-				<label>Gender : </label><span><%=user.getGender()%></span>
-			</div>
-			<div class="field">
-				<label>Role : </label><span><%=user.getRole()%></span>
-			</div>
-		</div>
-	</article>
-	
-	<article>
-		<div class="fieldset">
-			<div class="fieldset_label">
 				<span>Gestion des forums</span>
 			</div>
 			<div class="field">
@@ -58,18 +37,27 @@
 					<a href='ajouter_forum.jsp'>Créer un nouveau forum</a>
 				</p>
 				<p>
-					<a href='listForums.jsp'>Gestion des abonnements</a>
+					<a href='gerer_forums.jsp'>Afficher la liste des forums</a>
 				</p>
-				<p>
-					<a href='listMesForums.jsp'>Liste de mes forums (vous êtes le propriétaire de ce forum).</a>
-				</p>
-				<p>
-					<a href='listMesInvitations.jsp'>Liste de mes invitations (vous êtes le membre de ce forum).</a>
-				</p>
+
 			</div>
 		</div>
 	</article>
 
-
+	<article>
+		<div class="fieldset">
+			<div class="fieldset_label">
+				<span>Gestion des utilisateurs</span>
+			</div>
+			<div class="field">
+				<p>
+					<a href='ajouter_nv_util.jsp'>Créer un nouveau utilisateur</a>
+				</p>
+				<p>
+					<a href='UserManager'>Afficher la liste des utilisateurs</a>
+				</p>
+			</div>
+		</div>
+	</article>
 </body>
 </html>

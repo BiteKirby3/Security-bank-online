@@ -71,7 +71,7 @@ public class AddMessage extends HttpServlet {
                 Forum forum= Forum.FindByID(idForum);
                 //add message
                 Message m = new Message(message, user);
-                forum.addMessage(m);
+                //forum.addMessage(m);
                 
                 response.setContentType("text/html;charset=UTF-8");
                 try (PrintWriter out = response.getWriter()) {
@@ -103,6 +103,7 @@ public class AddMessage extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		processRequest(request, response);
@@ -111,6 +112,7 @@ public class AddMessage extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);

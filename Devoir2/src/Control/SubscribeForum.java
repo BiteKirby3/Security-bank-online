@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import Model.Forum;
 import Model.User;
 
 /**
@@ -62,30 +61,28 @@ public class SubscribeForum extends HttpServlet {
             }
 
         } else {
-
-	           try {
-	        	   
+	           try {	        	   
 	            	int forumid = Integer.parseInt(request.getParameter("forumid"));
 	            	int userid=Integer.parseInt(request.getParameter("userid"));
-	            	
 	            	// add the subscription
 	            	User user=new User(userid);
-	            	user.addForumSubscription(forumid);
-	            	
+	            	user.addForumSubscription(forumid);        	
 	            	try (PrintWriter out = response.getWriter()){
 		            	out.println("<!DOCTYPE html>");
 		                out.println("<html>");
 		                out.println("<head>");
-		                out.println("<meta http-equiv='refresh' content='5; URL=ListForum.jsp' />");
-		                out.println("<title> Deconnexion</title>");
+		                if("admin".equalsIgnoreCase((String) session.getAttribute("role"))) {
+	                    	out.println("<meta http-equiv='refresh' content='5; URL=adminPage.jsp' />");
+	                    } else {
+	                    	out.println("<meta http-equiv='refresh' content='5; URL=userPage.jsp' />");
+	                    }
+		                out.println("<title> Abonnement </title>");
 		                out.println("</head>");
 		                out.println("<body>");
-		                out.println("<h1> Vous avez bien abonn¨¦ ce Forum, redirigez vers la page liste de forum... </h1>");
+		                out.println("<h1> Vous avez bien vous abonn¨¦ ¨¤ ce forum, redirigez vers la page d'accueil apr¨¨s 5 secondes... </h1>");
 		                out.println("</body>");
 		                out.println("</html>");
 	            	}
-	            	
-	                
 	            } catch (SQLException | ClassNotFoundException ex) {
 	                Logger.getLogger(AddForum.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -94,6 +91,7 @@ public class SubscribeForum extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		processRequest(request, response);
@@ -102,6 +100,7 @@ public class SubscribeForum extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		processRequest(request, response);

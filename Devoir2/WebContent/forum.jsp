@@ -3,10 +3,8 @@
 	import="Model.*, java.util.*,java.io.IOException,java.sql.SQLException,java.util.logging.Logger,java.util.logging.Level ,java.text.SimpleDateFormat" %>
    
  <% 
- 
  	int forumid = (int) session.getAttribute("forum");
 	Forum f = Forum.FindByID(forumid);
-	
 	 %>  
 	 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -124,68 +122,6 @@
 	</header>
 
 <div class="wrap">
-	
-   
-      
-<% 
-	List<Message> ListMessage;
-	f.LoadMessages();
-	ListMessage = f.getMessages();
-	if(ListMessage.isEmpty()){
-		out.println("<br><p>Il n'y a pas des messages. </p>");
-		
-	}else{
-		String login=(String)session.getAttribute("login");
-	    for (int index = 0; index < ListMessage.size(); index++) {
-	    	
-	    	out.println("<div class=\"mes-board\" action=\"replyMessage\">");
-	    	out.println("<span><h4>"+ListMessage.get(index).getEditor().getLogin()+"</h4> <small>"+ListMessage.get(index).getDatePublication()+"</small></span>");
-	    	out.println("<br><p>"+ListMessage.get(index).getContent()+"</p>");
-	    	if(login.equals(ListMessage.get(index).getEditor().getLogin())){
-				out.println("<form action=\"MessageManager\" method=\"post\"> ");
-		    	out.println("<input type=\"hidden\" id=\"message\" name=\"message\" value="+ListMessage.get(index).getId()+">");
-		    	out.println("<input type=\"submit\" name=\"MessageManager\"  value=\"Edit\" />");
-		    	out.println("<input type=\"submit\" name=\"MessageManager\" value=\"Delete\" />");
-		    	out.println("</form>");
-			}
-	    	List<Reply> ListReply;
-	    	ListMessage.get(index).LoadReply();
-	    	ListReply = ListMessage.get(index).getReplyList();
-	    	
-	    	if(!ListReply.isEmpty()){
-	    		out.println("<div class=\"firstline\">");
-	    		out.println("<p>Commentaires:</p>");
-	    		for(int i = 0; i < ListReply.size(); i++){
-	    			out.println("<div id=\"reply\">");
-	    			out.println("<h4>"+ListReply.get(i).getEditor().getLogin()+"</h4><small>"+ListReply.get(i).getDateReply()+"</small>");
-	    			out.println("<p id=\"content\">"+ListReply.get(i).getContent()+"</p>");
-	    			
-	    			if(login.equals(ListReply.get(i).getEditor().getLogin())){
-	    				out.println("<form action=\"ReplyManager\" method=\"post\"> ");
-	    		    	out.println("<input type=\"hidden\" id=\"message\" name=\"message\" value="+ListReply.get(i).getId()+">");
-	    		    	out.println("<input type=\"submit\" name=\"reply_submit\"  value=\"Edit\" />");
-	    		    	out.println("<input type=\"submit\" name=\"reply_submit\" value=\"Delete\" />");
-	    		    	out.println("</form>");
-	    			}
-	    			out.println("</div>");
-	    			
-	    		}
-	    		out.println("</div>");
-	    		
-	    	}
-	    	
-	    	
-	    	out.println("<form action=\"replyMessage\" method=\"post\"> ");
-	    	out.println("<input type=\"hidden\" id=\"message\" name=\"message\" value="+ListMessage.get(index).getId()+">");
-	    	out.println("<textarea id=\"reply\" name=\"reply\" ></textarea>");
-	    	out.println("<input type=\"submit\" value=\"Reply\" />");
-	    	out.println("</form>");
-	    	
-	        out.println("</div>");
-	    }
-	}
-	
-%>
 
 </div>
 

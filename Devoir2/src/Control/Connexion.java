@@ -10,8 +10,6 @@ import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.Iterator;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -41,7 +39,6 @@ public class Connexion extends HttpServlet {
         try {
             // Vérifier si le login existe
             User u = User.FindByloginAndPwd(request.getParameter("username"), request.getParameter("password"));
-
             if (u == null) {
                 response.setContentType("text/html;charset=UTF-8");
                 try (PrintWriter out = response.getWriter()) {
@@ -65,7 +62,7 @@ public class Connexion extends HttpServlet {
                 
                 if ("admin".equalsIgnoreCase(role)) {
                 	//si le rôle de user est admin
-                	String path="menu.jsp";
+                	String path="adminPage.jsp";
                 	request.getRequestDispatcher(path).forward(request, response);
 
                 } else {

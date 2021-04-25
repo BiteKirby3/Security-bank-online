@@ -28,7 +28,7 @@ public class Forum extends ActiveRecordBase {
     private String description;
     private List<Message> messages;
     private User owner;
-    private static String _query = "select * from `devoir2`.`forum`;"; // for findAll static Method
+    private static String _query = "select * from `db_sr03`.`forum`;"; // for findAll static Method
 
     /**
      * 
@@ -76,7 +76,7 @@ public class Forum extends ActiveRecordBase {
 
     public Forum(int id) throws SQLException, IOException, ClassNotFoundException {
         Connection conn = MyConnectionClass.getInstance();
-        String select_query = "select * from `devoir2`.`forum` where `id` = '" + id + "';";
+        String select_query = "select * from `db_sr03`.`forum` where `id` = '" + id + "';";
         
         Statement sql = null;
         sql = conn.createStatement();
@@ -125,18 +125,18 @@ public class Forum extends ActiveRecordBase {
     // DB access method
     @Override
     protected String _delete() {
-        return "DELETE FROM `devoir2`.`forum` WHERE (`id` = '" + id + "');";
+        return "DELETE FROM `db_sr03`.`forum` WHERE (`id` = '" + id + "');";
     }
 
     @Override
     protected String _insert() {
-        return "INSERT INTO `devoir2`.`forum` (`title`, `owner`,`description`) "
+        return "INSERT INTO `db_sr03`.`forum` (`title`, `owner`,`description`) "
                 + "VALUES ('" + title + "', '" + owner.getId() + "', '"+ description +"');";
     }
 
     @Override
     protected String _update() {
-        return "UPDATE `devoir2`.`forum` SET `title` = '" + title + "', "
+        return "UPDATE `db_sr03`.`forum` SET `title` = '" + title + "', "
                 + "`owner`='" + owner.getId() + "', `description` = '"+description+"'   WHERE (`id` = '" + id + "');";
     }
 
@@ -149,11 +149,12 @@ public class Forum extends ActiveRecordBase {
      * @throws IOException
      * @throws SQLException
      */
+    /*
     public void LoadMessages() throws ClassNotFoundException, IOException, SQLException {
     	
     	List<Message> Messagelist=new ArrayList<Message>();
     	Connection conn = MyConnectionClass.getInstance();
-        String select_query =  "select * from `devoir2`.`message` where `destination` = " +this.id+" order by `datePublication` DESC";
+        String select_query =  "select * from `db_sr03`.`message` where `destination` = " +this.id+" order by `datePublication` DESC";
         PreparedStatement sql = null;
 
         sql = conn.prepareStatement(select_query);
@@ -166,7 +167,7 @@ public class Forum extends ActiveRecordBase {
         this.messages= Messagelist;
 
     }
-
+*/
     
     
     /**
@@ -176,12 +177,13 @@ public class Forum extends ActiveRecordBase {
      * @throws SQLException
      * @throws IOException
      */
+    /*
     public void addMessage(Message m) throws ClassNotFoundException, SQLException, IOException {
     	m.setDestination(this);
     	m.save();
     	LoadMessages();
     }
-
+	*/
 
     public static List<Forum> FindAll() throws IOException, ClassNotFoundException, SQLException{
     	List <Forum>  listForum = new ArrayList<Forum>() ;
@@ -209,7 +211,7 @@ public class Forum extends ActiveRecordBase {
     public static List<Integer> FindAllSubscription(int forumid) throws SQLException, ClassNotFoundException, IOException {
     	List<Integer> userlist=new ArrayList<Integer>();
     	Connection conn = MyConnectionClass.getInstance();
-        String search_query ="select id_user from `devoir2`.`subscriptions` where id_forum = ?;";
+        String search_query ="select id_user from `db_sr03`.`subscriptions` where id_forum = ?;";
         PreparedStatement sql = null;
         sql = conn.prepareStatement(search_query);
         sql.setInt(1, forumid);
@@ -234,7 +236,7 @@ public class Forum extends ActiveRecordBase {
     	Connection conn = MyConnectionClass.getInstance();
     	Statement sql = null;
         sql = conn.createStatement();
-        String query="DELETE FROM `devoir2`.`subscriptions` WHERE  `id_forum`="+this.id+"; ";
+        String query="DELETE FROM `db_sr03`.`subscriptions` WHERE  `id_forum`="+this.id+"; ";
         System.out.println("Executing this command: " + query + "\n");
         sql.executeUpdate(query);  
     }
@@ -242,7 +244,7 @@ public class Forum extends ActiveRecordBase {
     
     public static Forum FindByID(int id) throws SQLException, ClassNotFoundException, IOException {
     	Connection conn = MyConnectionClass.getInstance();
-        String select_query = "select * from `devoir2`.`forum` where `id` = ? ; ";
+        String select_query = "select * from `db_sr03`.`forum` where `id` = ? ; ";
         PreparedStatement sql = null;
         sql = conn.prepareStatement(select_query);
         sql.setInt(1, id);

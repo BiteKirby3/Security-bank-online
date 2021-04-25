@@ -13,26 +13,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import Model.Forum;
 import Model.User;
 
 /**
- * Servlet implementation class AddForum
+ * Servlet implementation class UnsubscribeForum
  */
-@WebServlet("/AddForum")
-public class AddForum extends HttpServlet {
+@WebServlet("/UnsubscribeForum")
+public class UnsubscribeForum extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddForum() {
+    public UnsubscribeForum() {
         super();
         // TODO Auto-generated constructor stub
     }
+
     
     /**
      * Processes requests for both HTTP  <code>POST</code> methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -42,7 +43,7 @@ public class AddForum extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        if (session.getAttribute("login") == null ) {
+        if (session.getAttribute("login") == null) {
             try (PrintWriter out = response.getWriter()) {
                 /* TODO output your page here. You may use following sample code. */
                 out.println("<!DOCTYPE html>");
@@ -56,45 +57,37 @@ public class AddForum extends HttpServlet {
                 out.println("</body>");
                 out.println("</html>");
             }
+
         } else {
-            try {
-                String title = request.getParameter("forum title");
-                String description = request.getParameter("description");
-                String login=(String) session.getAttribute("login");
-                User user= User.FindByLogin(login);
-                //add forum
-                Forum forum= new Forum(title, description, user);
-                forum.save();
-                
-                response.setContentType("text/html;charset=UTF-8");
-                try (PrintWriter out = response.getWriter()) {
-                    out.println("<!DOCTYPE html>");
-                    out.println("<html>");
-                    out.println("<head>");
-                    if("admin".equalsIgnoreCase((String) session.getAttribute("role"))) {
-                    	out.println("<meta http-equiv='refresh' content='5; URL=adminPage.jsp' />");
-                    } else {
-                    	out.println("<meta http-equiv='refresh' content='5; URL=userPage.jsp' />");
-                    }
-                    out.println("<title>Un nouveau Forum </title>");          
-                    out.println("</head>");
-                    out.println("<body>");
-                    out.println("<h1> Un nouveau Forum est ajout¨¦ : </h1>");
-                    out.println(forum.toString());
-                    out.println("<p> Retourez ¨¤ la page d'accueil apr¨¨s 5 secondes... </p>");
-                    out.println("</body>");
-                    out.println("</html>");
-                }
-            } catch (SQLException | ClassNotFoundException ex) {
-                Logger.getLogger(AddForum.class.getName()).log(Level.SEVERE, null, ex);
+	           try {	        	   
+	            	int forumid = Integer.parseInt(request.getParameter("forumid"));
+	            	int userid=Integer.parseInt(request.getParameter("userid"));
+	            	// remove the subscription
+	            	User user=new User(userid);
+	            	user.deleteSubscriptionFromId(forumid);
+	            	try (PrintWriter out = response.getWriter()){
+		            	out.println("<!DOCTYPE html>");
+		                out.println("<html>");
+		                out.println("<head>");
+		                if("admin".equalsIgnoreCase((String) session.getAttribute("role"))) {
+	                    	out.println("<meta http-equiv='refresh' content='5; URL=adminPage.jsp' />");
+	                    } else {
+	                    	out.println("<meta http-equiv='refresh' content='5; URL=userPage.jsp' />");
+	                    }
+		                out.println("<title> D¨¦sabonnement </title>");
+		                out.println("</head>");
+		                out.println("<body>");
+		                out.println("<h1> Vous avez bien vous d¨¦sabonn¨¦ ¨¤ ce forum, redirigez vers la page d'accueil apr¨¨s 5 secondes... </h1>");
+		                out.println("</body>");
+		                out.println("</html>");
+	            	}
+	            	
+	                
+	            } catch (SQLException | ClassNotFoundException ex) {
+	                Logger.getLogger(AddForum.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
-    
-    
-    
-    
-
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -110,9 +103,7 @@ public class AddForum extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//doGet(request, response);
 		processRequest(request, response);
-		
 	}
 
 }
