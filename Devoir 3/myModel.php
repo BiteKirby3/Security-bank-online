@@ -34,7 +34,7 @@ function findUserByLoginPwd($login, $pwd, $ip) {
           
           // on log l'IP ayant g¨¦n¨¦r¨¦ l'erreur
           $stmt_insert = $mysqli->prepare("insert into connection_errors(ip,error_date) values(?,CURTIME())");
-          $stmt_insert->bind_param("s", $ip); // Eventuellement, g¨¦rer le cas oÃ¹ l'utilisateur on est derri¨¨re un proxy en utilisant $_SERVER['HTTP_X_FORWARDED_FOR'] 
+          $stmt_insert->bind_param("s", $ip); // Eventuellement, g¨¦rer le cas ou l'utilisateur on est derri¨¨re un proxy en utilisant $_SERVER['HTTP_X_FORWARDED_FOR'] 
           $stmt_insert->execute();
           $stmt_insert->close();
       }
@@ -44,6 +44,36 @@ function findUserByLoginPwd($login, $pwd, $ip) {
   }
 
   return $utilisateur;
+}
+
+function findUserByLogin($login) {
+    $mysqli = getMySqliConnection();
+    
+    if ($mysqli->connect_error) {
+        trigger_error('Erreur connection BDD (' . $mysqli->connect_errno . ') '. $mysqli->connect_error, E_USER_ERROR);
+        $utilisateur = false;
+    } else {
+        // Pour faire vraiment propre, on devrait tester si le prepare et le execute se passent bien
+        $stmt = $mysqli->prepare("select nom,prenom,login,id_user,numero_compte,profil_user,solde_compte from users where login=?;");
+        $stmt->bind_param("s", $login); // on lie les param¨¨tres de la requ¨ºte pr¨¦par¨¦e avec les variables
+        $stmt->execute();
+        $stmt->bind_result($nom, $prenom, $username, $id_user, $numero_compte, $profil_user, $solde_compte); // on pr¨¦pare les variables qui recevront le r¨¦sultat
+        if ($stmt->fetch()) {
+            // les identifiants sont corrects => on renvoie les infos de l'utilisateur
+            $utilisateur = array ("nom" => $nom,
+                "prenom" => $prenom,
+                "login" => $username,
+                "id_user" => $id_user,
+                "numero_compte" => $numero_compte,
+                "profil_user" => $profil_user,
+                "solde_compte" => $solde_compte);
+        } 
+        $stmt->close();
+        
+        $mysqli->close();
+    }
+    
+    return $utilisateur;
 }
 
 
@@ -90,6 +120,54 @@ function findAllUsers() {
   }
 
   return $listeUsers;
+}
+
+
+function findAllClients() {
+    $mysqli = getMySqliConnection();
+    
+    $listeClients = array();
+    
+    if ($mysqli->connect_error) {
+        trigger_error('Erreur connection BDD (' . $mysqli->connect_errno . ') '. $mysqli->connect_error, E_USER_ERROR);
+    } else {
+        $req="select * from users where profil_user = 'CLIENT';";
+        if (!$result = $mysqli->query($req)) {
+            trigger_error('Erreur requ¨ºte BDD ['.$req.'] (' . $mysqli->errno . ') '. $mysqli->error, E_USER_ERROR);
+        } else {
+            while ($unUser = $result->fetch_assoc()) {
+                $listeClients[$unUser['id_user']] = $unUser;
+            }
+            $result->free();
+        }
+        $mysqli->close();
+    }
+    
+    return $listeClients;
+}
+
+
+function findAllEmployes() {
+    $mysqli = getMySqliConnection();
+    
+    $listeEmployes = array();
+    
+    if ($mysqli->connect_error) {
+        trigger_error('Erreur connection BDD (' . $mysqli->connect_errno . ') '. $mysqli->connect_error, E_USER_ERROR);
+    } else {
+        $req="select nom,prenom,login,id_user from users where profil_user = 'EMPLOYE';";
+        if (!$result = $mysqli->query($req)) {
+            trigger_error('Erreur requ¨ºte BDD ['.$req.'] (' . $mysqli->errno . ') '. $mysqli->error, E_USER_ERROR);
+        } else {
+            while ($unUser = $result->fetch_assoc()) {
+                $listeEmployes[$unUser['id_user']] = $unUser;
+            }
+            $result->free();
+        }
+        $mysqli->close();
+    }
+    
+    return $listeEmployes;
 }
 
 
