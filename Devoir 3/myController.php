@@ -40,13 +40,9 @@ if (isset($_REQUEST['action'])) {
                 $_SESSION["listeClients"] = findAllClients();
                 $_SESSION["listeEmployes"] = findAllEmployes();
                 $_SESSION["profil"] = $utilisateur['profil_user'];
-
-                if ($utilisateur['profil_user'] == "EMPLOYE") {
-                    $url_redirect = "vw_admin.php";
-                }  
-                else
-
-                    $url_redirect = "vw_accueil.php";
+                $_SESSION["consult_user"] = $utilisateur;
+                
+                $url_redirect = "vw_accueil.php";
                     
             }
         }
@@ -83,9 +79,9 @@ if (isset($_REQUEST['action'])) {
         $url_redirect = "ficheclient.php";
     } else if($_REQUEST['action']=='retour'){
         
-        $url_redirect = "vw_admin.php";    
+        $url_redirect = "vw_accueil.php";    
     } else if($_REQUEST['action']=='virement'){
-        
+        //$_SESSION["consult_user"] = $_SESSION["connected_user"];
         $url_redirect = "vw_virement.php";
     } else if($_REQUEST['action']=='message'){
         
@@ -97,13 +93,11 @@ if (isset($_REQUEST['action'])) {
         
         // stocker l'utilisateur que l'employ¨¦ consulte
         $_SESSION["consult_user"] = $consult_user;
-        $url_redirect = "vw_moncompteclient.php";
+        $url_redirect = "vw_accueil.php";
         
     } else if ($_REQUEST['action'] == 'virement_client'){
         
-        $_SESSION["consult_user"] = $consult_user;
-        $url_redirect = "vw_clientvirement.php";
-        
+        $url_redirect = "vw_virement.php";
         
     } 
 }

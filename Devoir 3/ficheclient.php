@@ -28,7 +28,6 @@ else
     <header>
 		<form method="POST" action="myController.php">
             <input type="hidden" name="action" value="retour">
-            <input type="hidden" name="loginPage" value="vw_admin.php">
             <button class="btn-logout form-btn">Retour</button>
 		</form>
 		<h2>Liste de Clients</h2>

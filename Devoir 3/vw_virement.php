@@ -27,7 +27,7 @@
             <button class="btn-logout form-btn">Deconnexion</button>
         </form>
         
-        <h2><?php echo $_SESSION["connected_user"]["prenom"];?> <?php echo $_SESSION["connected_user"]["nom"];?> - Virement</h2>
+        <h2><?php echo $_SESSION["consult_user"]["prenom"];?> <?php echo $_SESSION["consult_user"]["nom"];?> - Virement</h2>
     </header>
     
     <section>
@@ -39,10 +39,10 @@
                   <span>Votre compte</span>
               </div>
               <div class="field">
-                  <label>No compte : </label><span><?php echo $_SESSION["connected_user"]["numero_compte"];?></span>
+                  <label>No compte : </label><span><?php echo $_SESSION["consult_user"]["numero_compte"];?></span>
               </div>
               <div class="field">
-                  <label>Solde : </label><span><?php echo $_SESSION["connected_user"]["solde_compte"];?> &euro;</span>
+                  <label>Solde : </label><span><?php echo $_SESSION["consult_user"]["solde_compte"];?> &euro;</span>
               </div>
           </div>
         </article>

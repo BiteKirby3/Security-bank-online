@@ -27,7 +27,7 @@ $_SESSION["mytoken"] = $mytoken;
             <button class="btn-logout form-btn">Deconnexion</button>
         </form>
         
-        <h2><?php echo $_SESSION["connected_user"]["prenom"];?> <?php echo $_SESSION["connected_user"]["nom"];?> - Mon compte</h2>
+        <h2><?php echo $_SESSION["consult_user"]["prenom"];?> <?php echo $_SESSION["consult_user"]["nom"];?> - Mon compte</h2>
     </header>
     
     <section>
@@ -38,10 +38,10 @@ $_SESSION["mytoken"] = $mytoken;
                   <span>Vos informations personnelles</span>
               </div>
               <div class="field">
-                  <label>Login : </label><span><?php echo $_SESSION["connected_user"]["login"];?></span>
+                  <label>Login : </label><span><?php echo $_SESSION["consult_user"]["login"];?></span>
               </div>
               <div class="field">
-                  <label>Profil : </label><span><?php echo $_SESSION["connected_user"]["profil_user"];?></span>
+                  <label>Profil : </label><span><?php echo $_SESSION["consult_user"]["profil_user"];?></span>
               </div>
           </div>
         </article>
@@ -52,10 +52,10 @@ $_SESSION["mytoken"] = $mytoken;
                   <span>Votre compte</span>
               </div>
               <div class="field">
-                  <label>No compte : </label><span><?php echo $_SESSION["connected_user"]["numero_compte"];?></span>
+                  <label>No compte : </label><span><?php echo $_SESSION["consult_user"]["numero_compte"];?></span>
               </div>
               <div class="field">
-                  <label>Solde : </label><span><?php echo $_SESSION["connected_user"]["solde_compte"];?> &euro;</span>
+                  <label>Solde : </label><span><?php echo $_SESSION["consult_user"]["solde_compte"];?> &euro;</span>
               </div>
           </div>
         </article>
@@ -69,15 +69,33 @@ $_SESSION["mytoken"] = $mytoken;
 			</form>
 		</article>
 		
-		<article>
-			<form method="POST" action="myController.php">
-			<div class="fieldset">
-				<input type="hidden" name="action" value="message">
-				<button class="form-btn">Afficher les messages.</button>
-				</div>
-			</form>
-		</article>
+		<?php 
+		if ($_SESSION["consult_user"] == $_SESSION["connected_user"]) {
+		    
+		    echo "<article>";
+		    echo "<form method=\"POST\" action=\"myController.php\">";
+		    echo "<div class=\"fieldset\">";
+		    echo "<input type=\"hidden\" name=\"action\" value=\"message\">";
+		    echo "<button class=\"form-btn\">Afficher les messages.</button>";
+		    echo "</div></form></article>";
+		}
+		
+		?>
+	
+		
+		<?php 
+		if ($_SESSION["profil"] == "EMPLOYE" && $_SESSION["consult_user"] == $_SESSION["connected_user"]) {
+		    echo "<article>";
+		    echo "<form method=\"POST\" action=\"myController.php\">";
+		    echo "<div class=\"fieldset\">";
+		    echo "<input type=\"hidden\" name=\"action\" value=\"fichlist\">";
+		    echo "<button class=\"form-btn\">Consulter la liste des fichiers clients.</button>";
+		    echo "</div></form></article>";
+		}
+		
+		?>
 
+        
         
     </section>
 
