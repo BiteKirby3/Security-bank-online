@@ -23,8 +23,8 @@
 <body>
     <header>
         <form method="POST" action="myController.php">
-            <input type="hidden" name="action" value="disconnect">
-            <button class="btn-logout form-btn">Deconnexion</button>
+            <input type="hidden" name="action" value="retour">
+            <button class="btn-logout form-btn">Retour</button>
         </form>
         
         <h2><?php echo $_SESSION["consult_user"]["prenom"];?> <?php echo $_SESSION["consult_user"]["nom"];?> - Virement</h2>
@@ -56,7 +56,16 @@
                   <span>Transferer de l'argent</span>
               </div>
               <div class="field">
-                  <label>No compte destinataire : </label><input type="text" size="20" name="destination">
+                  <label>No compte destinataire : </label>
+                  <select name="destination">
+                    <?php
+                    foreach ($_SESSION['listeUsers'] as $id => $user) {
+                        if ($id != $_SESSION["consult_user"]["id_user"])
+                            echo '<option value="' . $id . '">' . $id . ' ' . $user['nom'] . ' ' . $user['prenom'] . '</option>';
+                    }
+                    ?>
+                    
+                  </select>
               </div>
               <div class="field">
                   <label>Montant a transferer : </label><input type="text" size="10" name="montant">

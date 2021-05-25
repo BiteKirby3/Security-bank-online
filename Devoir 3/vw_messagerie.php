@@ -21,12 +21,10 @@ if (!isset($_SESSION["connected_user"]) || $_SESSION["connected_user"] == "") {
 <body>
 	<header>
 		<form method="POST" action="myController.php">
+		<input type="hidden" name="action" value="retour">
 			<button class="btn-back form-btn">Retour</button>
 		</form>
-		<form method="POST" action="myController.php">
-			<input type="hidden" name="action" value="disconnect">
-			<button class="btn-logout form-btn">Deconnexion</button>
-		</form>
+
 
 		<h2><?php echo $_SESSION["connected_user"]["prenom"];?> <?php echo $_SESSION["connected_user"]["nom"];?> - Messages recus</h2>
 	</header>
@@ -39,10 +37,17 @@ if (!isset($_SESSION["connected_user"]) || $_SESSION["connected_user"] == "") {
 				<span>Envoyer un message</span>
 			</div>
 			<div class="field">
-				<label>Destinataire : </label> <select name="to">
+				<label>Destinataire : </label> 
+				<select name="to">
                     <?php
-                    foreach ($_SESSION['listeEmployes'] as $id => $user) {
-                        echo '<option value="' . $id . '">' . $user['nom'] . ' ' . $user['profil_user'] . '</option>';
+                    if ($_SESSION["profil"] == "EMPLOYE") {
+                        foreach ($_SESSION['listeUsers'] as $id => $user) {
+                            echo '<option value="' . $id . '">' . $id . ' ' . $user['nom'] . ' ' . $user['prenom'] . '</option>';
+                        }
+                    } else {
+                        foreach ($_SESSION['listeEmployes'] as $id => $user) {
+                            echo '<option value="' . $id . '">' . $id . ' ' . $user['nom'] . ' ' . $user['prenom'] . '</option>';
+                        }
                     }
                     ?>
                   </select>
@@ -57,7 +62,7 @@ if (!isset($_SESSION["connected_user"]) || $_SESSION["connected_user"] == "") {
 				<button class="form-btn">Envoyer</button>
                 <?php
                     if (isset($_REQUEST["msg_ok"])) {
-                        echo '<p>Message envoye avec succes.</p>';
+                        echo '<p>Message envoye succes.</p>';
                     }
                 ?>
               

@@ -22,10 +22,19 @@ $_SESSION["mytoken"] = $mytoken;
 </head>
 <body>
     <header>
-        <form method="POST" action="myController.php">
-            <input type="hidden" name="action" value="disconnect">
-            <button class="btn-logout form-btn">Deconnexion</button>
+    	<form method="POST" action="myController.php">
+    	<?php 
+    	if ($_SESSION["consult_user"]["id_user"] == $_SESSION["connected_user"]["id_user"]) {
+    	    echo "<input type=\"hidden\" name=\"action\" value=\"disconnect\">";
+    	    echo "<button class=\"btn-logout form-btn\">Deconnexion</button>";
+    	}
+    	else {
+    	    echo "<input type=\"hidden\" name=\"action\" value=\"retour_ficheclient\">";
+    	    echo "<button class=\"btn-logout form-btn\">Retour a la fiche client</button>";
+    	}
+    	?>
         </form>
+     
         
         <h2><?php echo $_SESSION["consult_user"]["prenom"];?> <?php echo $_SESSION["consult_user"]["nom"];?> - Mon compte</h2>
     </header>
@@ -69,8 +78,10 @@ $_SESSION["mytoken"] = $mytoken;
 			</form>
 		</article>
 		
+		
 		<?php 
-		if ($_SESSION["consult_user"] == $_SESSION["connected_user"]) {
+		echo $_SESSION["consult_user"]["id_user"] . "  " . $_SESSION["connected_user"]["id_user"] . " " . $_SESSION["profil"];
+		if ($_SESSION["consult_user"]["id_user"] == $_SESSION["connected_user"]["id_user"]) {
 		    
 		    echo "<article>";
 		    echo "<form method=\"POST\" action=\"myController.php\">";
@@ -84,7 +95,7 @@ $_SESSION["mytoken"] = $mytoken;
 	
 		
 		<?php 
-		if ($_SESSION["profil"] == "EMPLOYE" && $_SESSION["consult_user"] == $_SESSION["connected_user"]) {
+		if ($_SESSION["profil"] == "EMPLOYE" && $_SESSION["consult_user"]["id_user"] == $_SESSION["connected_user"]["id_user"]) {
 		    echo "<article>";
 		    echo "<form method=\"POST\" action=\"myController.php\">";
 		    echo "<div class=\"fieldset\">";

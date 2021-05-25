@@ -61,12 +61,13 @@ function findUserByLogin($login) {
         if ($stmt->fetch()) {
             // les identifiants sont corrects => on renvoie les infos de l'utilisateur
             $utilisateur = array ("nom" => $nom,
-                "prenom" => $prenom,
-                "login" => $username,
-                "id_user" => $id_user,
-                "numero_compte" => $numero_compte,
-                "profil_user" => $profil_user,
-                "solde_compte" => $solde_compte);
+                                "prenom" => $prenom,
+                                "login" => $username,
+                                "id_user" => $id_user,
+                                "numero_compte" => $numero_compte,
+                                "profil_user" => $profil_user,
+                                "solde_compte" => $solde_compte
+            );
         } 
         $stmt->close();
         
@@ -209,7 +210,7 @@ function findMessagesInbox($userid) {
       $stmt = $mysqli->prepare("select id_msg,sujet_msg,corps_msg,u.nom,u.prenom from messages m, users u where m.id_user_from=u.id_user and id_user_to=?");  
       $stmt->bind_param("i", $userid); // on lie les param¨¨tres de la requ¨ºte pr¨¦par¨¦e avec les variables
       $stmt->execute();
-      $stmt->bind_result($id_msg,$sujet_msg,$corps_msg,$nom,$prenom); // on pr¨¦pare les variables qui recevront le r¨¦sultat
+      $stmt->bind_result($id_msg, $sujet_msg, $corps_msg, $nom, $prenom); // on pr¨¦pare les variables qui recevront le r¨¦sultat
       while ($stmt->fetch()) {
           $unMessage = array ("id_msg" => $id_msg, "sujet_msg" => $sujet_msg, "corps_msg" => $corps_msg, "nom" => $nom, "prenom" => $prenom);
           $listeMessages[$id_msg] = $unMessage;
@@ -223,15 +224,15 @@ function findMessagesInbox($userid) {
 }
 
 
-function addMessage($to,$from,$subject,$body) {
+function addMessage($to, $from, $subject, $body) {
   $mysqli = getMySqliConnection();
 
   if ($mysqli->connect_error) {
       trigger_error('Erreur connection BDD (' . $mysqli->connect_errno . ') '. $mysqli->connect_error, E_USER_ERROR);
   } else {
       // Pour faire vraiment propre, on devrait tester si le execute et le prepare se passent bien
-      $stmt = $mysqli->prepare("insert into messages(id_user_to,id_user_from,sujet_msg,corps_msge) values(?,?,?,?)");  
-      $stmt->bind_param("iiss", $to,$from,$subject,$body); // on lie les param¨¨tres de la requ¨ºte pr¨¦par¨¦e avec les variables
+      $stmt = $mysqli->prepare("insert into messages(id_user_to,id_user_from,sujet_msg,corps_msg) values(?,?,?,?)");  
+      $stmt->bind_param("iiss", $to, $from, $subject, $body); // on lie les param¨¨tres de la requ¨ºte pr¨¦par¨¦e avec les variables
       $stmt->execute(); 
       $stmt->close();
 
