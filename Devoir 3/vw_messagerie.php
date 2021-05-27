@@ -1,5 +1,6 @@
 <?php
 require_once ('include.php');
+require_once("securimage/securimage.php");
 
 session_start();
 
@@ -58,21 +59,26 @@ if (!isset($_SESSION["connected_user"]) || $_SESSION["connected_user"] == "") {
 			<div class="field">
 				<label>Message : </label>
 				<textarea name="corps" cols="50" rows="5" style="resize: none;"></textarea>
-				<br>
+			</div>
+			<div class="field">
+				<?php echo Securimage::getCaptchaHtml() ?>
+			</div>
+			<div>
 				<button class="form-btn">Envoyer</button>
+			</div>
                 <?php
                     if (isset($_REQUEST["msg_ok"])) {
-                        echo '<p>Message envoye succes.</p>';
+                        echo '<p style="color:green;">Message envoyé avec succès.</p>';
+                    } else if (isset($_REQUEST["msg_codeerreur"])) {
+                        echo '<p style="color:red;">Message non envoyé comme le code n\'est pas correct </p>';
                     }
                 ?>
-              
-			</div>
 		</form>
 	</article>
 
 	<section>
 		<article>
-
+		</br>
 			<div class="liste">
 				<table>
 					<tr>

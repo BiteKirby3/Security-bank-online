@@ -1,10 +1,11 @@
 <?php
 require_once ('include.php');
 require_once ('myModel.php');
+require_once("securimage/securimage.php");
 
 session_start();
 
-// URL de redirection par d¨¦faut (si pas d'action ou action non reconnue)
+// URL de redirection par defaut (si pas d'action ou action non reconnue)
 $url_redirect = "index.php";
 
 if (isset($_REQUEST['action'])) {
@@ -12,29 +13,20 @@ if (isset($_REQUEST['action'])) {
     if ($_REQUEST['action'] == 'authenticate') {
 
         /* ======== AUTHENT ======== */
-        // if (ipIsBanned($_SERVER['REMOTE_ADDR'])){
-        // // cette IP est bloqu¨¦e
-        // $url_redirect = "vw_login.php?ipbanned";
-
-        // } else
-        if (! isset($_REQUEST['login']) || ! isset($_REQUEST['mdp']) || $_REQUEST['login'] == "" || $_REQUEST['mdp'] == "") {
+        if (ipIsBanned(getRealIp())){
+            // cette IP est bloquÃ©e
+            $url_redirect = "vw_login.php?ipbanned";
+        } else if (!isset($_REQUEST['login']) || !isset($_REQUEST['mdp']) || $_REQUEST['login'] == "" || $_REQUEST['mdp'] == "") {
             // manque login ou mot de passe
-
             $url_redirect = "vw_login.php?nullvalue";
         } else {
-            $car_interdits = array(
-                "'",
-                "\"",
-                ";",
-                "%"
-            ); // une liste de caract¨¨res que je choisis d'interdire
-            $utilisateur = findUserByLoginPwd(str_replace($car_interdits, "", $_REQUEST['login']), str_replace($car_interdits, "", $_REQUEST['mdp']), $_SERVER['REMOTE_ADDR']);
-
+            $car_interdits = array("'", "\"", ";","%"); // une liste de caractÃ¨res que je choisis d'interdire
+            $utilisateur = findUserByLoginPwd(str_replace($car_interdits, "", $_REQUEST['login']), str_replace($car_interdits, "", $_REQUEST['mdp']), getRealIp());
             if ($utilisateur == false) {
                 // echec authentification
                 $url_redirect = "vw_login.php?badvalue";
             } else {
-                // authentification r¨¦ussie
+                // authentification rÃ©ussie
                 $_SESSION["connected_user"] = $utilisateur;
                 $_SESSION["listeUsers"] = findAllUsers();
                 $_SESSION["listeClients"] = findAllClients();
@@ -53,7 +45,7 @@ if (isset($_REQUEST['action'])) {
     } else if ($_REQUEST['action'] == 'transfert') {
         /* ======== TRANSFERT ======== */
         if (! isset($_REQUEST['mytoken']) || $_REQUEST['mytoken'] != $_SESSION['mytoken']) {
-            // echec v¨¦rification du token (ex : attaque CSRF)
+            // echec verification du token (ex : attaque CSRF)
             $url_redirect = "vw_virement.php?err_token";
         } else {
             if (is_numeric($_REQUEST['montant']) && $_REQUEST['montant'] > 0 && $_REQUEST['montant'] <= $_SESSION["consult_user"]["solde_compte"]) {
@@ -66,8 +58,13 @@ if (isset($_REQUEST['action'])) {
         }
     } else if ($_REQUEST['action'] == 'sendmsg') {
         /* ======== MESSAGE ======== */
-        addMessage($_REQUEST['to'], $_SESSION["connected_user"]["id_user"], $_REQUEST['sujet'], $_REQUEST['corps']);
-        $url_redirect = "vw_messagerie.php?msg_ok";
+        $image = new Securimage();
+        if ($image->check($_POST['captcha_code']) == true) {
+            addMessage($_REQUEST['to'], $_SESSION["connected_user"]["id_user"], $_REQUEST['sujet'], $_REQUEST['corps']);
+            $url_redirect = "vw_messagerie.php?msg_ok";
+        } else {
+            $url_redirect = "vw_messagerie.php?msg_codeerreur";
+        }
     } else if ($_REQUEST['action'] == 'fichlist') {
         /* ======== FicheClient ======== */
         $_SESSION["listeUsers"] = findAllUsers();
@@ -86,7 +83,7 @@ if (isset($_REQUEST['action'])) {
         /* ========Consulter un compte user ======== */
         $consult_user = findUserByLogin($_REQUEST['login']);
 
-        // stocker l'utilisateur que l'employ¨¦ consulte
+        // stocker l'utilisateur que l'employe consulte
         $_SESSION["consult_user"] = $consult_user;
         $url_redirect = "vw_accueil.php";
     } else if ($_REQUEST['action'] == 'virement_client') {
