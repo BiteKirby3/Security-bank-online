@@ -13,15 +13,15 @@
              '<br/>Verifiez vos parametres dans le config.ini'.
              '</body></html>';        
   } else {
-        // mySQL r¨¦pond bien
+        // mySQL rï¿½ï¿½pond bien
         session_start();
 
         if(!isset($_SESSION["connected_user"]) || $_SESSION["connected_user"] == "") {
-            // utilisateur non connect¨¦
+            // utilisateur non connectï¿½ï¿½
             header('Location: vw_login.php');      
 
         } else {
-            header('Location: vw_moncompte.php');      
+            header('Location: vw_accueil.php');      
         }
   }
 

@@ -53,7 +53,7 @@ if (isset($_REQUEST["nullvalue"])) {
 } else if (isset($_REQUEST["ipbanned"])) {
     echo '<script>document.getElementById("alarm").innerHTML = "Nombre de tentatives maximal atteint ! Contactez votre gestionnaire.";</script>';
 } else if (isset($_REQUEST["mdpFormatError"])) {
-    echo '<script>document.getElementById("alarm").innerHTML = "Le mot de passe doit contenir au moins 8 caractères (chiffres et lettres), au moins 1 lettre majuscule et 1 lettre minuscule.";</script>';
+    echo '<script>document.getElementById("alarm").innerHTML = "Le mot de passe doit contenir au moins 8 caractères (chiffres ou lettres), avec au moins 1 chiffre, 1 lettre majuscule et 1 lettre minuscule.";</script>';
 } else if (isset($_REQUEST["disconnect"])) {
     echo '<script>document.getElementById("alarm").innerHTML = "Vous avez bien ete deconnecte.";</script>';
 }

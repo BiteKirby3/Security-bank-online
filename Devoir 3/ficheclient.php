@@ -5,14 +5,13 @@ ini_set("display_errors", 0);
 session_start();
 $url_redirect = "index.php";
 if(!isset($_SESSION["connected_user"])){
-    echo "<script> alert('Veuillez vous connecter d\'abord!!'); </script>";
-    echo "<meta http-equiv='Refresh' content='0; URL=$url_redirect'>";
+  // utilisateur non connecte
+  header('Location: vw_login.php');
+  exit();
+} else if($_SESSION['profil'] != "EMPLOYE"){
+  header('HTTP/1.0 403 Forbidden');
+  die("Désolé, vous n'avez pas le droit de consulter cette page !");
 }
-else
-    if($_SESSION['profil'] != "EMPLOYE"){
-        echo "<script>window.alert('Vous n'avez pas droit.'); </script>";
-        echo "<meta http-equiv='Refresh' content='0; URL=\"vw_login.php\"'>";
-    }
 
 ?>
 

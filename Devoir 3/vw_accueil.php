@@ -39,7 +39,6 @@ $_SESSION["mytoken"] = $mytoken;
     </header>
     
     <section>
-
         <article>
           <div class="fieldset">
               <div class="fieldset_label">
