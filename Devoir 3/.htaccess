@@ -7,8 +7,3 @@ ErrorDocument 500 "Désolé, notre script s'est crashé ; comme c'est dommage !"
 order allow,deny  
 deny from all  
 </Files> 
-
-<Files securimage/example_form.php>
- Order allow,deny
- Deny from all
-</Files>
