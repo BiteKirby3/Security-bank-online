@@ -34,13 +34,11 @@ $_SESSION["mytoken"] = $mytoken;
     	}
     	?>
         </form>
-     
         
         <h2><?php echo $_SESSION["consult_user"]["prenom"];?> <?php echo $_SESSION["consult_user"]["nom"];?> - Mon compte</h2>
     </header>
     
     <section>
-
         <article>
           <div class="fieldset">
               <div class="fieldset_label">
@@ -80,7 +78,7 @@ $_SESSION["mytoken"] = $mytoken;
 		
 		
 		<?php 
-		echo $_SESSION["consult_user"]["id_user"] . "  " . $_SESSION["connected_user"]["id_user"] . " " . $_SESSION["profil"];
+		#echo $_SESSION["consult_user"]["id_user"] . "  " . $_SESSION["connected_user"]["id_user"] . " " . $_SESSION["profil"];
 		if ($_SESSION["consult_user"]["id_user"] == $_SESSION["connected_user"]["id_user"]) {
 		    
 		    echo "<article>";
@@ -104,10 +102,7 @@ $_SESSION["mytoken"] = $mytoken;
 		    echo "</div></form></article>";
 		}
 		
-		?>
-
-        
-        
+		?>    
     </section>
 
 </body>

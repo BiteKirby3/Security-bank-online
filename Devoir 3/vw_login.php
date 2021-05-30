@@ -18,113 +18,10 @@
 	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<style>
-body {
-	color: #999;
-	background: #f5f5f5;
-	font-family: 'Varela Round', sans-serif;
-}
-
-.form-control {
-	box-shadow: none;
-	border-color: #ddd;
-}
-
-.form-control:focus {
-	border-color: #4aba70;
-}
-
-.login-form {
-	width: 350px;
-	margin: 0 auto;
-	padding: 30px 0;
-}
-
-.login-form form {
-	color: #434343;
-	border-radius: 1px;
-	margin-bottom: 15px;
-	background: #fff;
-	border: 1px solid #f3f3f3;
-	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-	padding: 30px;
-}
-
-.login-form h4 {
-	text-align: center;
-	font-size: 22px;
-	margin-bottom: 20px;
-}
-
-.login-form .avatar {
-	color: #fff;
-	margin: 0 auto 30px;
-	text-align: center;
-	width: 100px;
-	height: 100px;
-	border-radius: 50%;
-	z-index: 9;
-	background: #4aba70;
-	padding: 15px;
-	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
-}
-
-.login-form .avatar i {
-	font-size: 62px;
-}
-
-.login-form .form-group {
-	margin-bottom: 20px;
-}
-
-.login-form .form-control, .login-form .btn {
-	min-height: 40px;
-	border-radius: 2px;
-	transition: all 0.5s;
-}
-
-.login-form .close {
-	position: absolute;
-	top: 15px;
-	right: 15px;
-}
-
-.login-form .btn, .login-form .btn:active {
-	background: #4aba70 !important;
-	border: none;
-	line-height: normal;
-}
-
-.login-form .btn:hover, .login-form .btn:focus {
-	background: #42ae68 !important;
-}
-
-.login-form .checkbox-inline {
-	float: left;
-}
-
-.login-form input[type="checkbox"] {
-	position: relative;
-	top: 2px;
-}
-
-.login-form .forgot-link {
-	float: right;
-}
-
-.login-form .small {
-	font-size: 13px;
-}
-
-.login-form a {
-	color: #4aba70;
-}
-
-#alarm {
-	color: red;
-}
-</style>
+	<link rel="stylesheet" type="text/css" media="all"  href="css/login.css" />
+	<script src="js/myscript.js"></script>
 </head>
+
 <body>
 	<div class="login-form">
 		<form action="myController.php" method="post">
@@ -155,6 +52,8 @@ if (isset($_REQUEST["nullvalue"])) {
     echo '<script>document.getElementById("alarm").innerHTML = "Votre login/mot de passe est incorrect.";</script>';
 } else if (isset($_REQUEST["ipbanned"])) {
     echo '<script>document.getElementById("alarm").innerHTML = "Nombre de tentatives maximal atteint ! Contactez votre gestionnaire.";</script>';
+} else if (isset($_REQUEST["mdpFormatError"])) {
+    echo '<script>document.getElementById("alarm").innerHTML = "Le mot de passe doit contenir au moins 8 caractères (chiffres ou lettres), avec au moins 1 chiffre, 1 lettre majuscule et 1 lettre minuscule.";</script>';
 } else if (isset($_REQUEST["disconnect"])) {
     echo '<script>document.getElementById("alarm").innerHTML = "Vous avez bien ete deconnecte.";</script>';
 }
