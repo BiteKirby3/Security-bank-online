@@ -2,3 +2,13 @@ Options -Indexes
 ErrorDocument 403 "Désolé, vous n'avez pas le droit de consulter cette page !"
 ErrorDocument 404 "Oops! Page non trouvée !"
 ErrorDocument 500 "Désolé, notre script s'est crashé ; comme c'est dommage !"
+
+<Files .htaccess>  
+order allow,deny  
+deny from all  
+</Files> 
+
+<Files securimage/example_form.php>
+ Order allow,deny
+ Deny from all
+</Files>

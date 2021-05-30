@@ -43,8 +43,10 @@ if (!isset($_SESSION["connected_user"]) || $_SESSION["connected_user"] == "") {
                     <?php
                     if ($_SESSION["profil"] == "EMPLOYE") {
                         foreach ($_SESSION['listeUsers'] as $id => $user) {
-                            echo '<option value="' . $id . '">' . $id . ' ' . $user['nom'] . ' ' . $user['prenom'] . '</option>';
-                        }
+							if($user['login']!=$_SESSION["connected_user"]["login"]){
+                            	echo '<option value="' . $id . '">' . $id . ' ' . $user['nom'] . ' ' . $user['prenom'] . '</option>';
+                        	}
+						}
                     } else {
                         foreach ($_SESSION['listeEmployes'] as $id => $user) {
                             echo '<option value="' . $id . '">' . $id . ' ' . $user['nom'] . ' ' . $user['prenom'] . '</option>';
