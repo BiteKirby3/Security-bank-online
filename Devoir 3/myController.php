@@ -54,6 +54,7 @@ if (isset($_REQUEST['action'])) {
             if(!findAccountByNumero($_REQUEST['destination'])){
                 $url_redirect = "vw_virement.php?account=".$_REQUEST['account']."&destination_error";
             } else if(!$utilisateur){
+                session_unset();
                 $url_redirect = "vw_login.php?badvalue";
             } else if($_REQUEST['destination']==$_REQUEST['account']){
                 $url_redirect = "vw_virement.php?account=".$_REQUEST['account']."&account_destination_same";
